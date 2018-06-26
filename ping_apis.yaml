@@ -1,0 +1,182 @@
+swagger: "2.0"
+info:
+  description: ""
+  version: "1.0.0"
+  title: "延迟测量API"
+  contact:
+    email: "gaoliangim@gmail.com"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "api.gaoliang.im"
+basePath: "/v1"
+tags:
+- name: "icmp"
+  description: "Everything about icmp ping"
+- name: "tcp"
+  description: "Everything about host and tcp"
+- name: "udp"
+  description: "Everything about host and udp"
+- name: "host"
+  description: "Everything about host and ip"
+schemes:
+- "https"
+- "http"
+paths:
+  /icmp/ping:
+    post:
+      tags:
+      - "icmp"
+      summary: "以icmp形式ping某个host一次"
+      description: ""
+      operationId: "ping_imcp"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "host"
+        in: "formData"
+        description: "host or ip to be pinged."
+        required: true
+        type: "string"
+      responses:
+        403:
+          description: "Invalid host or ip"
+        200:
+          description: "ping success, get result"
+          schema:
+            $ref: "#/definitions/PingResult"
+  /tcp/ping:
+    post:
+      tags:
+      - "tcp"
+      summary: "以tcp形式ping某个host一次"
+      description: ""
+      operationId: "ping_tcp"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "host"
+        in: "formData"
+        description: "host or ip to be pinged."
+        required: true
+        type: "string"
+      responses:
+        403:
+          description: "Invalid host or ip"
+        200:
+          description: "ping success, get result"
+          schema:
+            $ref: "#/definitions/TUPingResult"
+  /udp/ping:
+    post:
+      tags:
+      - "udp"
+      summary: "以udp形式ping某个host一次"
+      description: ""
+      operationId: "ping_udp"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "host"
+        in: "formData"
+        description: "host or ip to be pinged."
+        required: true
+        type: "string"
+      responses:
+        403:
+          description: "Invalid host or ip"
+        200:
+          description: "ping success, get result"
+          schema:
+            $ref: "#/definitions/TUPingResult"
+  /host/locate:
+    post:
+      tags:
+      - "host"
+      summary: "获取主机对应的地理位置信息"
+      description: ""
+      operationId: "locate_ip"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "host"
+        in: "formData"
+        description: "host or ip to be located."
+        required: true
+        type: "string"
+      responses:
+        403:
+          description: "Invalid host or ip"
+        200:
+          description: "经纬度信息和大概的,人类可读的地理位置"
+          schema:
+            $ref: "#/definitions/Locate"
+
+
+definitions:
+  PingResult:
+    type: "object"
+    properties:
+      successs: 
+        type: 'boolean'
+      result:
+        type: 'object'
+        properties:
+          delay:
+            type: 'number'
+            description: "延迟， 单位为ms"
+          ttl:
+            type: 'number'
+            description: '本次ping的ttl'
+          destination_ip:
+            type: 'string'
+            description: 'host对应的ip地址'
+          self_ip: 
+            type: 'string'
+            description: '本机IP， 用DNS实现的， 理论上和你的DNS服务器设置有关'  
+  TUPingResult:
+    type: "object"
+    properties:
+      successs: 
+        type: 'boolean'
+      result:
+        type: 'object'
+        properties:
+          delay:
+            type: 'number'
+            description: "延迟， 单位为ms"
+          destination_ip:
+            type: 'string'
+            description: 'host对应的ip地址'
+          self_ip: 
+            type: 'string'
+            description: '本机IP， 用DNS实现的， 理论上和你的DNS服务器设置有关'  
+          from_port:
+            type: 'number'
+            description: '本机端口'
+          target_port:
+            type: 'number'
+            description: '目标端口'
+  Locate:
+    type: "object"
+    properties:
+      address:
+        type: 'string'
+        description: "简要地理位置信息"
+      x:
+        type: 'number'
+        description: '所在位置的大致经度'
+      y:
+        type: 'number'
+        description: '所在位置的大致纬度'
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
