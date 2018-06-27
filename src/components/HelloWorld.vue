@@ -1,12 +1,20 @@
 <template>
-  <div class="main">
-    <h1>{{ title }}</h1>
-    <ul>
-       <li><router-link to="/Icmp">Icmp</router-link></li>
-       <li><router-link to="/Udp">Udp</router-link></li>
-       <li><router-link to="/Tcp">Tcp</router-link></li>
-    </ul>
+  <div class="container" id="main">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>{{ title }}</h1>
+        <h2>
+          <ul>
+            <li><router-link to="/Icmp">ICMP</router-link></li>
+            <li><router-link to="/Udp">UDP</router-link></li>
+            <li><router-link to="/Tcp">TCP</router-link></li>
+          </ul>
+        </h2>
+
+       </div>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -22,6 +30,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#main, #main2 {
+  padding-top: 20px;
+}
 h1, h2 {
   font-weight: normal;
 }

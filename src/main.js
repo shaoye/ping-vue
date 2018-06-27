@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import './assets/bootstrap.min.css'
 window.echarts = require('echarts')
 
 Vue.config.productionTip = false
